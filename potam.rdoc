@@ -1,0 +1,5 @@
+= potam
+
+Generate this with
+    potam rdoc
+After you have described your command line interface

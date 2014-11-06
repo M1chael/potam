@@ -1,0 +1,6 @@
+= potam
+
+Describe your project here
+
+:include:potam.rdoc
+

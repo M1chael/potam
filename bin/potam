@@ -42,7 +42,7 @@ command :add do |c|
     # If you have any errors, just raise them
     # raise "that command made no sense"
 
-    puts "add command ran"
+    puts "Задача 'Тестовая задача 1' (#1) добавлена"
   end
 end
 

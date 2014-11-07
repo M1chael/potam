@@ -3,12 +3,13 @@ Feature: Adding task
   In order to group my activity
   I want to add a task
 
-  Scenario: Successfully add task
-    #Given I command to add task
-    #When I type a task title "Тестовая здача"
-    #And I type a task description "Описание тестовой задачи"
-    #Then I should see "Задача \"Тестовая задача\" (#1) добавлена"
+  Scenario Outline: Successfully add tasks
     When I run command `add`
-    And I type a task title "Тестовая задача"
-    And I type a task description "Описание тестовой задачи"
-    Then I should see "Задача 'Тестовая задача' (#1) добавлена"
+    And I type a task title "<title>"
+    And I type a task description "<description>"
+    Then I should see "Задача '<title>' (#<number>) добавлена"
+
+    Examples:
+      | title             | description | number  |
+      | Тестовая задача 1 | Описание    | 1       |
+      | Тестовая задача 2 | Описание    | 2       |

@@ -1,17 +1,23 @@
 require 'potam'
-require 'database_cleaner'
+# require 'database_cleaner'
 
-RSpec.configure do |config|
+# RSpec.configure do |config|
 
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
-  end
+#   config.before(:suite) do
+#     DatabaseCleaner.strategy = :transaction
+#     DatabaseCleaner.clean_with(:truncation)
+#   end
 
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      example.run
-    end
-  end
+#   config.around(:each) do |example|
+#     DatabaseCleaner.cleaning do
+#       example.run
+#     end
+#   end
 
-end
+# end
+
+# RSpec.configure do |c|
+#   c.around(:each) do |example|
+#     DB.transaction(:rollback=>:always, :auto_savepoint=>true){example.run}
+#   end
+# end

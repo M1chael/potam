@@ -1,15 +1,17 @@
 #!/usr/bin/env ruby
 require 'gli'
-begin # XXX: Remove this begin/rescue before distributing your app
-require 'potam'
-rescue LoadError
-  STDERR.puts "In development, you need to use `bundle exec bin/potam` to run your app"
-  STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
-  STDERR.puts "Feel free to remove this message from bin/potam now"
-  exit 64
-end
+require 'potam.rb'
+# begin # XXX: Remove this begin/rescue before distributing your app
+# require 'potam'
+# rescue LoadError
+#   STDERR.puts "In development, you need to use `bundle exec bin/potam` to run your app"
+#   STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
+#   STDERR.puts "Feel free to remove this message from bin/potam now"
+#   exit 64
+# end
 
 include GLI::App
+include Dialog
 
 program_desc 'Describe your application here'
 
@@ -41,8 +43,9 @@ command :add do |c|
      
     # If you have any errors, just raise them
     # raise "that command made no sense"
-
-    puts "Задача 'Тестовая задача 1' (#1) добавлена"
+    Dialog.ask_new_task
+    puts "Задача '#{Dialog::new_task_title}' (#1) добавлена"
+    # puts "Задача 'Тестовая задача 1' (#1) добавлена"
   end
 end
 

@@ -1,4 +1,4 @@
-require 'spec_helper'
+# require 'spec_helper'
 require 'tasks'
 
 describe Tasks do
@@ -13,7 +13,7 @@ describe Tasks do
   #   potam = Potam.new(db: @db_path)
   # end
   describe 'Tasks#create' do
-    it 'save task to DB' do
+    it 'should save task to DB' do
       tasks = [
         {title: 'Тестовая задача 1', description: 'Описание тестовой задачи 1'},
         {title: 'Тестовая задача 2', description: 'Описание тестовой задачи 2'}

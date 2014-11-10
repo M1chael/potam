@@ -3,3 +3,4 @@ gemspec
 
 gem 'sequel'
 gem 'highline'
+gem 'sqlite3'

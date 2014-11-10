@@ -44,7 +44,10 @@ command :add do |c|
     # If you have any errors, just raise them
     # raise "that command made no sense"
     Dialog.ask_new_task
-    puts "Задача '#{Dialog::new_task_title}' (#1) добавлена"
+    db = Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db")
+    tasks = Tasks.new(db)
+    tasks.create(title: Dialog::new_task_title, description: Dialog::new_task_description)
+    puts "Задача '#{Dialog::new_task_title}' (##{tasks.new_task_id}) добавлена"
     # puts "Задача 'Тестовая задача 1' (#1) добавлена"
   end
 end

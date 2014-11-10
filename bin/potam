@@ -43,8 +43,11 @@ command :add do |c|
      
     # If you have any errors, just raise them
     # raise "that command made no sense"
+    environment = ENV['POTAM']
     Dialog.ask_new_task
-    db = Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db")
+    db = environment == 'test' ? 
+      Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db") :
+      Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db")
     tasks = Tasks.new(db)
     tasks.create(title: Dialog::new_task_title, description: Dialog::new_task_description)
     puts "Задача '#{Dialog::new_task_title}' (##{tasks.new_task_id}) добавлена"

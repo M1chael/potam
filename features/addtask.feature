@@ -7,8 +7,8 @@ Feature: Adding task
     When I run command `add`
     And I type a task title "<title>"
     And I type a task description "<description>"
-    Then I should see "Задача '<title>'"
-    And I should see "добавлена"
+    Then I should see "Задача '<title>' (#<number>) добавлена"
+    #And I should see "добавлена"
 
     Examples:
       | title             | description | number  |

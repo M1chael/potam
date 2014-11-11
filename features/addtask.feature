@@ -8,9 +8,10 @@ Feature: Adding task
     And I type a task title "<title>"
     And I type a task description "<description>"
     Then I should see "Задача '<title>' (#<number>) добавлена"
-    #And I should see "добавлена"
 
     Examples:
       | title             | description | number  |
       | Тестовая задача 1 | Описание    | 1       |
       | Тестовая задача 2 | Описание    | 2       |
+
+  #  Scenario: Add multiline descriptions for tasks

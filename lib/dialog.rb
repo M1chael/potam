@@ -9,4 +9,10 @@ module Dialog
     @new_task_description = ask('Введите описание задачи: ')
   end
 
+  def self.say_tasks(tasks)
+    tasks.each do |task|
+      say("##{task[:id]}\t#{task[:title]}\t#{Time.at(task[:created_at].to_i).strftime("%Y-%m-%d")}\n")
+    end
+  end
+
 end

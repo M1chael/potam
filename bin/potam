@@ -20,6 +20,11 @@ version Potam::VERSION
 subcommand_option_handling :normal
 arguments :strict
 
+db = ENV['POTAM'] == 'test' ? 
+  Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db") :
+  Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db")
+tasks = Tasks.new(db)
+
 desc 'Describe some switch here'
 switch [:s,:switch]
 
@@ -43,12 +48,7 @@ command :add do |c|
      
     # If you have any errors, just raise them
     # raise "that command made no sense"
-    environment = ENV['POTAM']
     Dialog.ask_new_task
-    db = environment == 'test' ? 
-      Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db") :
-      Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db")
-    tasks = Tasks.new(db)
     tasks.create(title: Dialog::new_task_title, description: Dialog::new_task_description)
     puts "Задача '#{Dialog::new_task_title}' (##{tasks.new_task_id}) добавлена"
     # puts "Задача 'Тестовая задача 1' (#1) добавлена"
@@ -59,7 +59,8 @@ desc 'Describe list here'
 arg_name 'Describe arguments to list here'
 command :list do |c|
   c.action do |global_options,options,args|
-    puts "list command ran"
+    # tasks = Tasks.new(db)
+    Dialog.say_tasks(tasks.last)
   end
 end
 

@@ -12,6 +12,7 @@ Before do
   @original_rubylib = ENV['RUBYLIB']
   ENV['RUBYLIB'] = LIB_DIR + File::PATH_SEPARATOR + ENV['RUBYLIB'].to_s
   ENV['POTAM'] = 'test'
+  FileUtils.cp(CLEANDB, TESTDB)
 end
 
 After do

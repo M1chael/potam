@@ -8,7 +8,8 @@ Feature: Listing tasks
       | Тестовая задача 1 | Описание	|
       | Тестовая задача 2 | Описание  |
     When I run command `list`
-    Then I should looks like	#match
+    #match
+    Then I should look something like this
     	"""
     	#2	Тестовая задача 2	(\d){4}-(\d){2}-(\d){2}
     	#1	Тестовая задача 1	(\d){4}-(\d){2}-(\d){2}

@@ -11,8 +11,16 @@ module Dialog
 
   def self.say_tasks(tasks)
     tasks.each do |task|
-      say("##{task[:id]}\t#{task[:title]}\t#{Time.at(task[:created_at].to_i).strftime("%Y-%m-%d")}\n")
+      id = spaces("##{task[:id]}", 8)
+      title = spaces(task[:title], 41)
+      created_at = Time.at(task[:created_at].to_i).strftime("%Y-%m-%d")
+      say("#{id}#{title}#{created_at}")
     end
+  end
+
+  def spaces(text, width)
+    spaces = ' ' * (width - text.length)
+    return "#{text}#{spaces}"
   end
 
 end

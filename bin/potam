@@ -58,9 +58,10 @@ end
 desc 'Describe list here'
 arg_name 'Describe arguments to list here'
 command :list do |c|
+  c.switch :a, :all
   c.action do |global_options,options,args|
     # tasks = Tasks.new(db)
-    Dialog.say_tasks(tasks.last)
+    options[:all] ? Dialog.say_tasks(tasks.list) : Dialog.say_tasks(tasks.last)
   end
 end
 

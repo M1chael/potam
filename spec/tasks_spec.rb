@@ -18,6 +18,7 @@ describe Tasks do
         { id: 12, title: 'Тестовая задача 12', description: 'Описание тестовой задачи 12', created_at: 1415791051 },
         { id: 13, title: 'Тестовая задача 13', description: 'Описание тестовой задачи 13', created_at: 141579104052 },
       ] }
+
   describe 'Tasks#create' do
     it 'should save task to DB' do
       db = double(Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db"))
@@ -32,17 +33,29 @@ describe Tasks do
     end
   end
 
+  before(:each) do
+    FileUtils.cp(CLEANDB, TESTDB)
+    @db = Sequel.sqlite(TESTDB)
+    @db_tasks = @db[:tasks]
+    tasks.each do |task|
+      @db_tasks.insert(title: task[:title], description: task[:description], created_at: task[:created_at])
+    end
+    @test_tasks = Tasks.new(@db)
+  end
+
+  after(:each) do
+    FileUtils.cp(CLEANDB, TESTDB)
+  end
+
   describe 'Tasks#last' do
-    it 'should list tasks' do
-      FileUtils.cp(CLEANDB, TESTDB)
-      db = Sequel.sqlite(TESTDB)
-      db_tasks = db[:tasks]
-      tasks.each do |task|
-        db_tasks.insert(title: task[:title], description: task[:description], created_at: task[:created_at])
-      end
-      test_tasks = Tasks.new(db)
-      expect(test_tasks.last).to eq(tasks.sort{ |x, y| y[:id] <=> x[:id] }.first(10))
-      FileUtils.cp(CLEANDB, TESTDB)
+    it 'should list 10 last tasks' do
+      expect(@test_tasks.last).to eq(tasks.sort{ |x, y| y[:id] <=> x[:id] }.first(10))
+    end
+  end
+
+  describe 'Tasks#list' do
+    it 'should list all tasks' do
+      expect(@test_tasks.list).to eq(tasks.sort{ |x, y| y[:id] <=> x[:id] })
     end
   end
 end

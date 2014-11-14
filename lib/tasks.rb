@@ -20,4 +20,8 @@ class Tasks
     @tasks.order(Sequel.desc(:id)).limit(10).all
   end
 
+  def list
+    @tasks.order(Sequel.desc(:id)).all
+  end
+
 end

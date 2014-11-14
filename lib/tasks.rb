@@ -24,4 +24,8 @@ class Tasks
     @tasks.order(Sequel.desc(:id)).all
   end
 
+  def info(id)
+    @tasks.where("id = ?", id.to_i).first
+  end
+
 end

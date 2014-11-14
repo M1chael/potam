@@ -58,4 +58,10 @@ describe Tasks do
       expect(@test_tasks.list).to eq(tasks.sort{ |x, y| y[:id] <=> x[:id] })
     end
   end
+
+  describe 'Tasks#info' do
+    it 'should return info about task' do
+      expect(@test_tasks.info(1)).to eq(tasks[0])
+    end
+  end
 end

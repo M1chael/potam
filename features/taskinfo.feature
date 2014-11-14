@@ -13,5 +13,6 @@ Feature: Show info about task
 		Then I should see
 		"""
 		#1 "Тестовая задача 1"
+		2014-11-12
 		Описание
 		"""

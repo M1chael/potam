@@ -21,7 +21,7 @@ Feature: Listing tasks
       | Тестовая задача 12  | Описание     | 1415812616 |
       | Тестовая задача 13  | Описание     | 1415812621 |
 
-  Scenario: list last tasks
+  Scenario: list 10 last tasks
     When I run command `list`
     Then I should see
     """

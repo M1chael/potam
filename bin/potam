@@ -26,6 +26,7 @@ db = ENV['POTAM'] == 'test' ?
   Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db") :
   Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db")
 tasks = Tasks.new(db)
+notes = Notes.new(db)
 
 desc 'Describe some switch here'
 switch [:s,:switch]
@@ -39,7 +40,7 @@ desc 'Describe add here'
 arg_name 'Describe arguments to add here'
 command :add do |c|
   c.desc 'Describe a switch to add'
-  c.switch :s
+  c.switch :n, :note
 
   c.desc 'Describe a flag to add'
   c.default_value 'default'
@@ -50,10 +51,18 @@ command :add do |c|
      
     # If you have any errors, just raise them
     # raise "that command made no sense"
-    Dialog.ask_new_task
-    tasks.create(title: Dialog::new_task_title, description: Dialog::new_task_description)
-    puts "Задача '#{Dialog::new_task_title}' (##{tasks.new_task_id}) добавлена"
-    # puts "Задача 'Тестовая задача 1' (#1) добавлена"
+    if global_options[:task]
+      if options[:note]
+        Dialog.ask_new_note
+        notes.create(task_id: global_options[:task], text: Dialog::new_note_text)
+        say("Заметка к задаче ##{global_options[:task]} добавлена")
+      end
+    else
+      Dialog.ask_new_task
+      tasks.create(title: Dialog::new_task_title, description: Dialog::new_task_description)
+      say("Задача '#{Dialog::new_task_title}' (##{tasks.new_task_id}) добавлена")
+      # puts "Задача 'Тестовая задача 1' (#1) добавлена"
+    end
   end
 end
 

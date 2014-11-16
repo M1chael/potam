@@ -10,12 +10,12 @@ Feature: Adding note
       | Тестовая задача 2   | Описание     | 1415812566 |
 
   Scenario Outline: Successfully add notes
-    When I run command `-t <task> add`
-    And I type a note "<description>"
-    Then I should see "Заметка #<note> к задаче #<task> добавлена"
+    When I run command `-t <task> add -n`
+    And I type a note "<text>"
+    Then I should see "Заметка к задаче #<task> добавлена"
 
     Examples:
-      | task 	| note  | description |
+      | task 	| note  | text 				|
       | 1 		| 1 		| Описание    |
       | 1 		| 2 		| Описание    |
       | 2 		| 1 		| Описание    |

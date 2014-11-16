@@ -2,6 +2,7 @@ require 'sequel'
 
 require 'potam/version.rb'
 require 'tasks.rb'
+require 'notes.rb'
 require 'dialog.rb'
 
 # Add requires for other files you add to your project here, so

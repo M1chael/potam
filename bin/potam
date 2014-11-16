@@ -20,6 +20,8 @@ version Potam::VERSION
 subcommand_option_handling :normal
 arguments :strict
 
+# ENV['GLI_DEBUG'] = 'true'
+
 db = ENV['POTAM'] == 'test' ? 
   Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db") :
   Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db")
@@ -28,10 +30,10 @@ tasks = Tasks.new(db)
 desc 'Describe some switch here'
 switch [:s,:switch]
 
-desc 'Describe some flag here'
-default_value 'the default'
-arg_name 'The name of the argument'
-flag [:f,:flagname]
+desc 'Используется для указания номера задачи'
+# default_value 'the default'
+arg_name 'Номер задачи'
+flag [:t,:task]
 
 desc 'Describe add here'
 arg_name 'Describe arguments to add here'
@@ -61,7 +63,11 @@ command :list do |c|
   c.switch :a, :all
   c.action do |global_options,options,args|
     # tasks = Tasks.new(db)
-    options[:all] ? Dialog.say_tasks(tasks.list) : Dialog.say_tasks(tasks.last)
+    if global_options[:task]
+      Dialog.say_task(tasks.info(global_options[:task]))
+    else
+      options[:all] ? Dialog.say_tasks(tasks.list) : Dialog.say_tasks(tasks.last)
+    end
   end
 end
 

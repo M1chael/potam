@@ -6,13 +6,13 @@ LIB_DIR = File.join(File.expand_path(File.dirname(__FILE__)),'..','..','lib')
 CLEANDB = "#{File.expand_path(File.dirname(__FILE__))}/../../test/clean.db"
 TESTDB = "#{File.expand_path(File.dirname(__FILE__))}/../../test/test.db"
 
-Before do
+Before do |scenario|
   # Using "announce" causes massive warnings on 1.9.2
   @puts = true
   @original_rubylib = ENV['RUBYLIB']
   ENV['RUBYLIB'] = LIB_DIR + File::PATH_SEPARATOR + ENV['RUBYLIB'].to_s
   ENV['POTAM'] = 'test'
-  FileUtils.cp(CLEANDB, TESTDB)
+  FileUtils.cp(CLEANDB, TESTDB) if !defined? scenario.scenario_outline
 end
 
 After do

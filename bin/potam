@@ -20,7 +20,7 @@ version Potam::VERSION
 subcommand_option_handling :normal
 arguments :strict
 
-# ENV['GLI_DEBUG'] = 'true'
+ENV['GLI_DEBUG'] = 'true'
 
 db = ENV['POTAM'] == 'test' ? 
   Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db") :

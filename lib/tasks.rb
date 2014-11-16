@@ -1,5 +1,3 @@
-require 'sequel'
-
 class Tasks
 
   attr_reader :new_task_id

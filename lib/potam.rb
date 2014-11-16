@@ -1,3 +1,5 @@
+require 'sequel'
+
 require 'potam/version.rb'
 require 'tasks.rb'
 require 'dialog.rb'

@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'tasks'
 
 describe Tasks do
-  timestamp = Time.now.to_i
   let(:tasks) { [
         { id: 1, title: 'Тестовая задача 1', description: 'Описание тестовой задачи 1', created_at: 1415791040 },
         { id: 2, title: 'Тестовая задача 2', description: 'Описание тестовой задачи 2', created_at: 1415791041 },

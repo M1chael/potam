@@ -26,6 +26,7 @@ db = ENV['POTAM'] == 'test' ?
   Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db") :
   Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db")
 tasks = Tasks.new(db)
+subtasks = Subtasks.new(db)
 notes = Notes.new(db)
 
 desc 'Describe some switch here'
@@ -56,6 +57,10 @@ command :add do |c|
         Dialog.ask_new_note
         notes.create(task_id: global_options[:task], text: Dialog::new_note_text)
         say("Заметка к задаче ##{global_options[:task]} добавлена")
+      else
+        Dialog.ask_new_subtask
+        subtasks.create(task_id: global_options[:task], title: Dialog::new_subtask_title)
+        say("Подзадача ##{subtasks.new_subtask_id} к задаче ##{global_options[:task]} добавлена")
       end
     else
       Dialog.ask_new_task

@@ -2,11 +2,15 @@ require 'highline/import'
 
 module Dialog
 
-  attr_reader :new_task_title, :new_task_description, :new_note_text
+  attr_reader :new_task_title, :new_task_description, :new_note_text, :new_subtask_title
 
   def self.ask_new_task
     @new_task_title = ask('Введите имя задачи: ')
     @new_task_description = ask('Введите описание задачи: ')
+  end
+
+  def self.ask_new_subtask
+    @new_subtask_title = ask('Введите подзадачу: ')
   end
 
   def self.ask_new_note

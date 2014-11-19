@@ -21,7 +21,6 @@ describe DB do
     # end
     it 'should connect to table by class name' do
       db = double(Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db"))
-      allow(db).to receive(:[]).with(:test_db)
       expect(db).to receive(:[]).with(:test_db)
       test = Test_DB.new(db)
     end

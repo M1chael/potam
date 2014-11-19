@@ -23,9 +23,9 @@ class DB
   #   @new_task_id = @tasks.insert(title: @title, description: @description, created_at: @created_at)
   # end
 
-  # def last
-  #   @tasks.order(Sequel.desc(:id)).limit(10).all
-  # end
+  def last
+    instance_variable_get("@#{@table}").order(Sequel.desc(:id)).limit(10).all
+  end
 
   # def list
   #   @tasks.order(Sequel.desc(:id)).all

@@ -74,4 +74,14 @@ describe DB do
     end
   end
 
+  describe 'DB#info' do
+    it 'should return record by id' do
+      selected = double
+      allow(db_table).to receive(:where).with("id = ?", 1) { selected }
+      expect(selected).to receive(:first)
+      test = Test_DB.new(db)
+      test.info(1)
+    end
+  end
+
 end

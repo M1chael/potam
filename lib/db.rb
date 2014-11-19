@@ -31,8 +31,8 @@ class DB
     instance_variable_get("@#{@table}").order(Sequel.desc(:id)).all
   end
 
-  # def info(id)
-  #   @tasks.where("id = ?", id.to_i).first
-  # end
+  def info(id)
+    instance_variable_get("@#{@table}").where("id = ?", id.to_i).first
+  end
 
 end

@@ -12,6 +12,10 @@ class DB
     # @tasks = @db[:tasks]
   end
 
+  def create(record)
+    instance_variable_set("@new_#{@table}_id", instance_variable_get("@#{@table}").insert(record))
+  end
+
   # def create(options = {})
   #   options.each do |key, value|
   #     instance_variable_set("@#{key}", value)

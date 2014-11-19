@@ -3,8 +3,10 @@ class DB
   # attr_reader :new_test_id
 
   def initialize(db = Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db"))
-    self.class.__send__(:attr_reader, "new_#{self.class.name.downcase}_id")
-    @db = db
+    @table = self.class.name.downcase
+    self.class.__send__(:attr_reader, "new_#{@table}_id")
+    # @db = db
+    instance_variable_set("@#{@table}", db[:"#{@table}"])
     # Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db")
     # @db = db
     # @tasks = @db[:tasks]

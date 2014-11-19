@@ -52,7 +52,7 @@ describe DB do
     end
 
     describe 'DB#last' do
-      it 'should return 10 last records by id' do
+      it 'should return 10 last records ordered by id desc' do
         db_table = double
         ordered = double
         limited = double
@@ -63,6 +63,19 @@ describe DB do
         expect(limited).to receive(:all)
         test = Test_DB.new(db)
         test.last
+      end
+    end
+
+    describe 'DB#list' do
+      it 'should return all records ordered by id desc' do
+        db_table = double
+        ordered = double
+        db = double(@db)
+        allow(db).to receive(:[]).with(:test_db) { db_table }
+        allow(db_table).to receive(:order).with(Sequel.desc(:id)) { ordered }
+        expect(ordered).to receive(:all)
+        test = Test_DB.new(db)
+        test.list
       end
     end
 

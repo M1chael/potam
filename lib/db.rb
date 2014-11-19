@@ -27,9 +27,9 @@ class DB
     instance_variable_get("@#{@table}").order(Sequel.desc(:id)).limit(10).all
   end
 
-  # def list
-  #   @tasks.order(Sequel.desc(:id)).all
-  # end
+  def list
+    instance_variable_get("@#{@table}").order(Sequel.desc(:id)).all
+  end
 
   # def info(id)
   #   @tasks.where("id = ?", id.to_i).first

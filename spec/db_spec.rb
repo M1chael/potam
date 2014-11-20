@@ -30,10 +30,10 @@ describe DB do
     allow(db).to receive(:[]).with(:test_db) { db_table }
   end
 
-  describe 'DB#initialize' do
+  describe '#initialize' do
     it 'should create attr_reader according class name' do
       test = Test_DB.new
-      expect(test).to respond_to(:new_test_db_id)
+      expect(test).to respond_to(:new_test_d_id)
     end
     it 'should connect to table by class name' do
       expect(db).to receive(:[]).with(:test_db)
@@ -41,18 +41,18 @@ describe DB do
     end
   end
 
-  describe 'DB#create' do
+  describe '#create' do
     it 'should save data to table' do
       test_data.each do |record|
         expect(db_table).to receive(:insert).with(record) { record[:id] }
         test = Test_DB.new(db)
         test.create(record)
-        expect(test.new_test_db_id).to eq(record[:id])
+        expect(test.new_test_d_id).to eq(record[:id])
       end
     end
   end
 
-  describe 'DB#last' do
+  describe '#last' do
     it 'should return 10 last records ordered by id desc' do
       ordered = double
       limited = double
@@ -64,7 +64,7 @@ describe DB do
     end
   end
 
-  describe 'DB#list' do
+  describe '#list' do
     it 'should return all records ordered by id desc' do
       ordered = double
       allow(db_table).to receive(:order).with(Sequel.desc(:id)) { ordered }
@@ -74,7 +74,7 @@ describe DB do
     end
   end
 
-  describe 'DB#info' do
+  describe '#info' do
     it 'should return record by id' do
       selected = double
       allow(db_table).to receive(:where).with("id = ?", 1) { selected }

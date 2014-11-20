@@ -2,9 +2,18 @@ require 'spec_helper'
 require 'subtasks'
 
 describe Subtasks do
-  describe 'Subtasks#finish!' do
+
+  let(:db) { double }
+  let(:db_table) { double(Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db")) }
+  let(:selected) { double }
+
+  describe '#finish!' do
     it 'should change status to finished' do
-      
+      allow(db).to receive(:[]).with(:subtasks) { db_table }
+      allow(db_table).to receive(:where).with("id = ?", 1) { selected }
+      expect(selected).to receive(:update).with(status: 1)
+      test = Subtasks.new(db)
+      test.finish!(1)
     end
   end
 end

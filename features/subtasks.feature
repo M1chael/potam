@@ -15,7 +15,7 @@ Feature: Adding subtask
     Then I should see "Подзадача #1 к задаче #2 добавлена"
 
   Scenario: Successfully mark subtask finished
-    When I run command `-s 1`
+    When I run command `done 1`
     Then I should see "Подзадача 'Подзадача 1' завершена"
 
   #  Scenario: Add multiline descriptions for tasks

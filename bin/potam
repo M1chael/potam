@@ -37,6 +37,15 @@ desc 'Используется для указания номера задачи
 arg_name 'Номер задачи'
 flag [:t,:task]
 
+desc 'Пометить подзадачу как выполненную'
+arg_name 'Номер подзадачи'
+command :done do |c|
+  c.action do |global_options,options,args|
+    subtasks.finish!(args[0].to_i)
+    say("Подзадача 'Подзадача #{args[0]}' завершена")
+  end
+end
+
 desc 'Describe add here'
 arg_name 'Describe arguments to add here'
 command :add do |c|

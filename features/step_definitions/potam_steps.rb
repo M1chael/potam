@@ -25,12 +25,11 @@ Then(/^I should see$/) do |output|
     )
 end
 
-Given(/^following tasks exists:$/) do |table|
+Given(/^following ([^ ]*) exists:$/) do |table, records|
   db = Sequel.sqlite(TESTDB)
-  tasks = db[:tasks]
-  table.hashes.each do |task|
-    tasks.insert(title: task[:title], description: task[:description], 
-      created_at: task[:created_at])
+  table = db[:"#{table}"]
+  records.hashes.each do |record|
+    table.insert(record)
   end
 end
 

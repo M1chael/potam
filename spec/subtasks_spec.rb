@@ -9,13 +9,28 @@ describe Subtasks do
 
   describe '#finish!' do
     it 'should change status to finished' do
-      allow(db).to receive(:[]).with(:subtasks) { db_table }
-      allow(db_table).to receive(:where).with("id = ?", 1) { selected }
+      expect(db).to receive(:[]).with(:subtasks) { db_table }
+      expect(db_table).to receive(:where).with("id = ?", 1) { selected }
       expect(selected).to receive(:update).with(status: 1)
       test = Subtasks.new(db)
       test.finish!(1)
     end
   end
+
+  describe '#active' do
+    it 'should return active subtasks for specified task' do
+      ordered = double
+      selected_by_task_id = double
+      expect(db).to receive(:[]).with(:subtasks) { db_table }
+      expect(db_table).to receive(:where).with("task_id = ?", 1) { selected_by_task_id }
+      expect(selected_by_task_id).to receive(:where).with("status = ?", 0) { selected }
+      expect(selected).to receive(:order).with(Sequel.desc(:id)) { ordered }
+      expect(ordered).to receive(:all)
+      test = Subtasks.new(db)
+      test.active(1)
+    end
+  end
+
 end
 
 # describe Subtasks do

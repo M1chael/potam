@@ -64,18 +64,17 @@ command :add do |c|
     if global_options[:task]
       if options[:note]
         Dialog.ask_new_note
-        notes.create(task_id: global_options[:task], text: Dialog::new_note_text)
+        notes.create(task_id: global_options[:task], text: Dialog::new_note_text, created_at: Time.now.to_i)
         say("Заметка к задаче ##{global_options[:task]} добавлена")
       else
         Dialog.ask_new_subtask
-        subtasks.create(task_id: global_options[:task], title: Dialog::new_subtask_title)
+        subtasks.create(task_id: global_options[:task], title: Dialog::new_subtask_title, created_at: Time.now.to_i)
         say("Подзадача ##{subtasks.new_subtask_id} к задаче ##{global_options[:task]} добавлена")
       end
     else
       Dialog.ask_new_task
-      tasks.create(title: Dialog::new_task_title, description: Dialog::new_task_description)
+      tasks.create(title: Dialog::new_task_title, description: Dialog::new_task_description, created_at: Time.now.to_i)
       say("Задача '#{Dialog::new_task_title}' (##{tasks.new_task_id}) добавлена")
-      # puts "Задача 'Тестовая задача 1' (#1) добавлена"
     end
   end
 end

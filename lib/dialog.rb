@@ -30,10 +30,12 @@ module Dialog
     say("##{task[:id]} \"#{task[:title]}\"")
     say(ts_to_date(task[:created_at]))
     say(task[:description])
-    say('Подзадачи:')
-    subtasks.each do |subtask|
-      created_at = ts_to_date(subtask[:created_at])
-      say("  #{created_at} #{subtask[:title]} (##{subtask[:id]})")
+    if subtasks[0]
+      say('Подзадачи:')
+      subtasks.each do |subtask|
+        created_at = ts_to_date(subtask[:created_at])
+        say("  #{created_at} #{subtask[:title]} (##{subtask[:id]})")
+      end
     end
   end
 

@@ -33,6 +33,11 @@ Given(/^following ([^ ]*) exists:$/) do |table, records|
   end
 end
 
+Given /^the date is "(.*?)"$/ do |timestamp|
+#   Timecop.travel Time.new(timestamp)
+  ENV['POTAMTIME'] = timestamp
+end
+
 # Then(/^I should look something like this$/) do |expected|
 #   assert_matching_output(expected, all_output)
 # end

@@ -20,7 +20,11 @@ version Potam::VERSION
 subcommand_option_handling :normal
 arguments :strict
 
-ENV['GLI_DEBUG'] = 'true'
+# ENV['GLI_DEBUG'] = 'true'
+
+def time
+  time = ENV['POTAM'] == 'test' ? ENV['POTAMTIME'].to_i : Time.now.to_i
+end
 
 db = ENV['POTAM'] == 'test' ? 
   Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db") :
@@ -64,16 +68,16 @@ command :add do |c|
     if global_options[:task]
       if options[:note]
         Dialog.ask_new_note
-        notes.create(task_id: global_options[:task], text: Dialog::new_note_text, created_at: Time.now.to_i)
+        notes.create(task_id: global_options[:task], text: Dialog::new_note_text, created_at: time)
         say("Заметка к задаче ##{global_options[:task]} добавлена")
       else
         Dialog.ask_new_subtask
-        subtasks.create(task_id: global_options[:task], title: Dialog::new_subtask_title, created_at: Time.now.to_i)
+        subtasks.create(task_id: global_options[:task], title: Dialog::new_subtask_title, created_at: time)
         say("Подзадача ##{subtasks.new_subtask_id} к задаче ##{global_options[:task]} добавлена")
       end
     else
       Dialog.ask_new_task
-      tasks.create(title: Dialog::new_task_title, description: Dialog::new_task_description, created_at: Time.now.to_i)
+      tasks.create(title: Dialog::new_task_title, description: Dialog::new_task_description, created_at: time)
       say("Задача '#{Dialog::new_task_title}' (##{tasks.new_task_id}) добавлена")
     end
   end

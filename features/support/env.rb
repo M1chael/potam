@@ -1,5 +1,6 @@
 require 'aruba/cucumber'
 require 'sequel'
+# require 'cucumber/timecop'
 
 ENV['PATH'] = "#{File.expand_path(File.dirname(__FILE__) + '/../../bin')}#{File::PATH_SEPARATOR}#{ENV['PATH']}"
 LIB_DIR = File.join(File.expand_path(File.dirname(__FILE__)),'..','..','lib')
@@ -17,6 +18,7 @@ end
 
 After do
   ENV['RUBYLIB'] = @original_rubylib
+  # Timecop.return
 end
 
 at_exit do

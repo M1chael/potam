@@ -26,7 +26,7 @@ module Dialog
     end
   end
 
-  def self.say_task(task: task, subtasks: subtasks)
+  def self.say_task(task: task, subtasks: subtasks, notes: notes)
     say("##{task[:id]} \"#{task[:title]}\"")
     say(ts_to_date(task[:created_at]))
     say(task[:description])
@@ -35,6 +35,12 @@ module Dialog
       subtasks.each do |subtask|
         created_at = ts_to_date(subtask[:created_at])
         say("  #{created_at} #{subtask[:title]} (##{subtask[:id]})")
+      end
+    end
+    if notes[0]
+      notes.each do |note|
+        say("\n#{ts_to_date(note[:created_at])}")
+        say(note[:text])
       end
     end
   end

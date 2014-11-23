@@ -90,7 +90,9 @@ command :list do |c|
   c.action do |global_options,options,args|
     # tasks = Tasks.new(db)
     if global_options[:task]
-      Dialog.say_task(task: tasks.info(global_options[:task]), subtasks: subtasks.active(global_options[:task]))
+      Dialog.say_task(task: tasks.info(global_options[:task]), 
+        subtasks: subtasks.active(global_options[:task]),
+        notes: notes.last(global_options[:task]))
     else
       options[:all] ? Dialog.say_tasks(tasks.list) : Dialog.say_tasks(tasks.last)
     end

@@ -13,8 +13,13 @@ Feature: Show info about task
      	| Подзадача 1 	| 1 				| 0 			| 1415812661 |
      	| Подзадача 2 	| 2 				| 1 			| 1415812666 |
      	| Подзадача 3 	| 1 				| 0 			| 1415812961 |
+    And following notes exists:
+    	| task_id 	| text	 		| created_at |
+     	| 1 				| Заметка 1 | 1415812661 |
+     	| 2 				| Заметка 2 | 1415812666 |
+     	| 1 				| Заметка 3 | 1415812961 |
 
-	Scenario: view task info with subtasks
+	Scenario: view task info with subtasks and notes
 		When I run command `-t 1 list`
 		Then I should see
 		"""
@@ -24,6 +29,12 @@ Feature: Show info about task
 		Подзадачи:
 		      2014-11-12 Подзадача 3 (#3)
 		      2014-11-12 Подзадача 1 (#1)
+		
+		2014-11-12
+		Заметка 3
+
+		2014-11-12
+		Заметка 1
 		"""
 		When I run command `-t 2 list`
 		Then I should see
@@ -31,4 +42,7 @@ Feature: Show info about task
 		#2 "Тестовая задача 2"
 		2014-11-12
 		Описание 2
+
+		2014-11-12
+		Заметка 2
 		"""

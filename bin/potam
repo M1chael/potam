@@ -88,16 +88,13 @@ arg_name 'Describe arguments to list here'
 command :list do |c|
   c.switch :a, :all
   c.action do |global_options,options,args|
-    # tasks = Tasks.new(db)
+    list_method = options[:all] ? :list : :last
     if global_options[:task]
-      options[:all] ? Dialog.say_task(task: tasks.info(global_options[:task]), 
+      Dialog.say_task(task: tasks.info(global_options[:task]), 
           subtasks: subtasks.active(global_options[:task]),
-          notes: notes.last(global_options[:task])) :
-        Dialog.say_task(task: tasks.info(global_options[:task]), 
-          subtasks: subtasks.active(global_options[:task]),
-          notes: notes.list(global_options[:task]))
+          notes: notes.__send__(list_method, global_options[:task]))
     else
-      options[:all] ? Dialog.say_tasks(tasks.list) : Dialog.say_tasks(tasks.last)
+      Dialog.say_tasks(tasks.__send__(list_method))
     end
   end
 end

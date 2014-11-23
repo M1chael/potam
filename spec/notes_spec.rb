@@ -40,6 +40,18 @@ describe Notes do
       end
     end
 
+    describe '#list' do
+      it 'should list all notes for specific task ordered by id desc' do
+        ordered = double
+        selected = double
+        expect(db_table).to receive(:where).with("task_id = ?", 1) { selected }
+        expect(selected).to receive(:order).with(Sequel.desc(:id)) { ordered }
+        expect(ordered).to receive(:all)
+        test = Notes.new(db)
+        test.list(1)
+      end
+    end
+
 #   describe 'Notes#create' do
 #     it 'should save note to DB' do
 #       db = double(Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db"))

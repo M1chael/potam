@@ -1,6 +1,6 @@
 class DB
 
-  # attr_reader :new_test_id
+  @@logged = true
 
   def initialize(db = Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db"))
     table_name = self.class.name.downcase
@@ -15,6 +15,7 @@ class DB
   end
 
   def create(record)
+    record[:created_at] = time if @@logged
     instance_variable_set("@new_#{@record_name}_id", @table.insert(record))
   end
 
@@ -35,6 +36,12 @@ class DB
 
   def info(id)
     @table.where("id = ?", id.to_i).first
+  end
+
+  private
+
+  def time
+    time = ENV['POTAM'] == 'test' ? ENV['POTAMTIME'].to_i : Time.now.to_i
   end
 
 end

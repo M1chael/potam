@@ -38,7 +38,7 @@ class DB
     @table.where("id = ?", id.to_i).first
   end
 
-  private
+  protected
 
   def time
     time = ENV['POTAM'] == 'test' ? ENV['POTAMTIME'].to_i : Time.now.to_i

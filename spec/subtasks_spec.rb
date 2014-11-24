@@ -8,10 +8,18 @@ describe Subtasks do
   let(:selected) { double }
 
   describe '#finish!' do
+
+    around(:example) do |example|
+      ENV['POTAMTIME'] = '1415812666'
+      ENV['POTAM'] = 'test'
+      example.run
+      ENV['POTAM'] = 'production'
+    end
+
     it 'should change status to finished' do
       expect(db).to receive(:[]).with(:subtasks) { db_table }
       expect(db_table).to receive(:where).with("id = ?", 1) { selected }
-      expect(selected).to receive(:update).with(status: 1)
+      expect(selected).to receive(:update).with(status: 1, finished_at: 1415812666)
       test = Subtasks.new(db)
       test.finish!(1)
     end

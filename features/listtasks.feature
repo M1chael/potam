@@ -1,6 +1,6 @@
 # encoding: utf-8
 Feature: Listing tasks
- As a time-manager
+  As a time-manager
   In order to browse my tasks
   I want to view list of my tasks
 

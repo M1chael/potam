@@ -26,12 +26,12 @@ class DB
   #   @new_task_id = @tasks.insert(title: @title, description: @description, created_at: @created_at)
   # end
 
-  def last
-    @table.order(Sequel.desc(:id)).limit(10).all
+  def last(task_id = false)
+    select_by_task_id(task_id).order(Sequel.desc(:id)).limit(10).all
   end
 
-  def list
-    @table.order(Sequel.desc(:id)).all
+  def list(task_id = false)
+    select_by_task_id(task_id).order(Sequel.desc(:id)).all
   end
 
   def info(id)
@@ -39,6 +39,10 @@ class DB
   end
 
   protected
+
+  def select_by_task_id(task_id)
+    task_id ? @table.where("task_id = ?", task_id.to_i) : @table
+  end
 
   def time
     time = ENV['POTAM'] == 'test' ? ENV['POTAMTIME'].to_i : Time.now.to_i

@@ -3,9 +3,9 @@ require 'subtasks'
 
 describe Subtasks do
 
-  let(:db) { double }
-  let(:db_table) { double(Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db")) }
-  let(:selected) { double }
+  let(:db) { double(Sequel.sqlite) }
+  let(:db_table) { double(Sequel::Dataset) }
+  let(:selected) { double(Sequel::Dataset) }
 
   describe '#finish!' do
 

@@ -3,12 +3,13 @@ class DB
   @@logged = true
 
   def initialize(db = Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db"))
+    @db = db
     table_name = self.class.name.downcase
     @record_name = table_name[0..-2]
     self.class.__send__(:attr_reader, "new_#{@record_name}_id")
     # @db = db
     # instance_variable_set('@table', db[:"#{table_name}"])
-    @table = db[:"#{table_name}"]
+    @table = @db[:"#{table_name}"]
     # Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db")
     # @db = db
     # @tasks = @db[:tasks]

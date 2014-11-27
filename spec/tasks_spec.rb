@@ -68,17 +68,12 @@ describe Tasks do
 
   describe '#last' do
     it 'should list 10 last tasks, ordered by time of changes in subtasks or notes' do
-      # expect(db).to receive(:[]).with(:subtasks) { db_table }
-      # expect(@test_tasks.last).to eq(tasks.sort{ |x, y| y[:id] <=> x[:id] }.first(10))
-      # pp tasks.sort_by{ |task| order.index(task[:id]) }
       expect(@test_tasks.last).to eq(tasks.sort_by{ |task| order.index(task[:id]) }.first(10))
-      # p order
     end
   end
 
   describe '#list' do
     it 'should list all tasks, ordered by time of changes in subtasks or notes' do
-      # expect(@test_tasks.list).to eq(tasks.sort{ |x, y| y[:id] <=> x[:id] })
       expect(@test_tasks.list).to eq(tasks.sort_by{ |task| order.index(task[:id]) })
     end
   end

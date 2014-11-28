@@ -17,7 +17,7 @@ module Dialog
     @new_note_text = ask('Введите текст заметки: ')
   end
 
-  def self.say_tasks(tasks)
+  def self.say_tasks(tasks, indentation = '')
     tasks.each do |task|
       id = spaces("##{task[:id]}", 8)
       title = spaces(task[:title], 41)
@@ -43,6 +43,14 @@ module Dialog
         say(note[:text])
       end
     end
+  end
+
+  def self.say_report(report)
+  # def self.say_report(period = :week, tasks)
+    # say('Проведена работа по следующим задачам:')
+    # self.say_tasks(tasks, '  ')
+    # '=' * 27
+
   end
 
   def spaces(text, width)

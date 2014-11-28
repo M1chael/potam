@@ -1,4 +1,8 @@
+require 'timer'
+
 class DB
+
+  include Timer
 
   @@logged = true
 
@@ -16,7 +20,7 @@ class DB
   end
 
   def create(record)
-    record[:created_at] = time if @@logged
+    record[:created_at] = now if @@logged
     instance_variable_set("@new_#{@record_name}_id", @table.insert(record))
   end
 
@@ -45,8 +49,8 @@ class DB
     task_id ? @table.where("task_id = ?", task_id.to_i) : @table
   end
 
-  def time
-    time = ENV['POTAM'] == 'test' ? ENV['POTAMTIME'].to_i : Time.now.to_i
-  end
+  # def time
+  #   time = ENV['POTAM'] == 'test' ? ENV['POTAMTIME'].to_i : Time.now.to_i
+  # end
 
 end

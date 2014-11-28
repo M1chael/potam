@@ -6,7 +6,7 @@ describe Report do
   # Ср. нояб.  5 13:13:01
   # Ср. нояб. 12 22:16:06
   let(:tasks) { [
-      { id: 1, title: 'Тестовая задача 1', description: 'Описание тестовой задачи 1', created_at: 1415812561 },
+      { id: 1, title: 'Тестовая задача 1', description: 'Описание тестовой задачи 1', created_at: 1415164561 },
       { id: 2, title: 'Тестовая задача 2', description: 'Описание тестовой задачи 2', created_at: 1415175181 },
       { id: 3, title: 'Тестовая задача 3', description: 'Описание тестовой задачи 3', created_at: 1415812566 }
     ] }
@@ -23,7 +23,7 @@ describe Report do
   # Чт. нояб. 13 11:00:00
   let(:notes) { [
       { id: 1, task_id: 1, text: 'Заметка 1', created_at: 1415337023 },
-      { id: 2, task_id: 1, text: 'Заметка 2', created_at: 1415699432 },
+      { id: 2, task_id: 2, text: 'Заметка 2', created_at: 1415699432 },
       { id: 3, task_id: 3, text: 'Заметка 3', created_at: 1415858400 }
     ] }
 
@@ -32,7 +32,7 @@ describe Report do
     [
       tasks[2], tasks[1]
     ],
-    events: # + task create
+    events:
     [
       {object: :task, status: :created, task_id: tasks[2][:id], text: tasks[2][:title], timestamp: tasks[2][:created_at]},
       {object: :subtask, status: :created, task_id: tasks[2][:id], text: subtasks[2][:title], timestamp: subtasks[2][:created_at]},
@@ -45,18 +45,20 @@ describe Report do
   before(:each) do
     FileUtils.cp(CLEANDB, TESTDB)
     db = Sequel.sqlite(TESTDB)
-    # @db_tasks = @db[:tasks]
     {tasks: tasks, subtasks: subtasks, notes: notes}.each do |table_name, data|
       table = db[:"#{table_name}"]
       data.each do |record|
         table.insert(record)
       end
     end
+    ENV['POTAMTIME'] = '1415812666'
+    ENV['POTAM'] = 'test'
     @report = Report.new(db)
   end
 
   after(:each) do
-    FileUtils.cp(CLEANDB, TESTDB)
+    # FileUtils.cp(CLEANDB, TESTDB)
+    ENV['POTAM'] = 'production'
   end
 
   describe '#week' do

@@ -9,7 +9,12 @@ class Report
   end
 
   def week
-    tasks = @db[:tasks]
+    tasks = @db.fetch("SELECT * FROM tasks 
+      WHERE (created_at BETWEEN #{last_mon} AND #{now}) 
+        OR id IN (SELECT task_id FROM subtasks WHERE (created_at BETWEEN #{last_mon} AND #{now}) 
+        OR (finished_at BETWEEN #{last_mon} AND #{now})) 
+        OR id IN (SELECT task_id FROM notes WHERE (created_at BETWEEN #{last_mon} AND #{now}))
+        ORDER BY id DESC").to_a
   end
 
 end

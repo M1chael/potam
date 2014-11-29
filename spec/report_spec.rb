@@ -68,14 +68,19 @@ describe Report do
   end
 
   describe '#to_event' do
-    it 'should add task to events if its date is in report range' do
+    it 'should add task to events' do
       @report.__send__(:to_event, tasks[2])
       expect(@report.instance_variable_get(:@report)[:events][0]).to eq(report[:events][0])
     end
-    it 'should not add task to events if its date not is in report range' do
-      @report.__send__(:to_event, tasks[1])
-      expect(@report.instance_variable_get(:@report)[:events][0]).to be_nil
+    it 'should add note to events' do
+      @report.__send__(:to_event, notes[2])
+      expect(@report.instance_variable_get(:@report)[:events][0]).to eq(report[:events][2])
     end
+
+    # it 'should not add task to events if its date not is in report range' do
+    #   @report.__send__(:to_event, tasks[1])
+    #   expect(@report.instance_variable_get(:@report)[:events][0]).to be_nil
+    # end
   end
 
 end

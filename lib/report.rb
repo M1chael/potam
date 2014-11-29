@@ -25,9 +25,11 @@ class Report
     if object[:description]
       @report[:events] << 
         {object: :task, status: :created, task_id: object[:id], 
-          text: object[:title], timestamp: object[:created_at]} if object[:created_at].between?(last_mon, now)
+          text: object[:title], timestamp: object[:created_at]} #if object[:created_at].between?(last_mon, now)
     elsif object[:text]
-
+      @report[:events] << 
+        {object: :note, status: :created, task_id: object[:task_id], 
+          text: object[:text], timestamp: object[:created_at]}
     else
 
     end

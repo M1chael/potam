@@ -1,8 +1,19 @@
 require 'highline/import'
+require 'unicode'
 
 module Dialog
 
   attr_reader :new_task_title, :new_task_description, :new_note_text, :new_subtask_title
+
+  TRANSLATION = {
+    task:     'задача',
+    subtask:  'подзадача',
+    note:     'заметка',
+    created:  'создана',
+    finished: 'завершена'
+  }
+
+  WEEK = [nil, 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
 
   def self.ask_new_task
     @new_task_title = ask('Введите имя задачи: ')
@@ -22,7 +33,7 @@ module Dialog
       id = spaces("##{task[:id]}", 8)
       title = spaces(task[:title], 41)
       created_at = ts_to_date(task[:created_at])
-      say("#{id}#{title}#{created_at}")
+      say("#{indentation}#{id}#{title}#{created_at}")
     end
   end
 
@@ -46,20 +57,35 @@ module Dialog
   end
 
   def self.say_report(report)
-  # def self.say_report(period = :week, tasks)
-    # say('Проведена работа по следующим задачам:')
-    # self.say_tasks(tasks, '  ')
-    # '=' * 27
-
+    say('Проведена работа по следующим задачам:')
+    self.say_tasks(report[:tasks], '  ')
+    say('=' * 27)
+    report[:tasks].each do |task|
+      say(task[:title] + ':')
+      separator = false
+      report[:events].select{ |event| event[:task_id] == task[:id] }.each do |event|
+        say("\n") if separator
+        separator = true
+        wd = WEEK[ts_to_date(event[:timestamp], "%u").to_i]
+        say('  ' + ts_to_date(event[:timestamp], "%Y-%m-%d (#{wd}) %H:%M:%S"))
+        status = Unicode::capitalize(TRANSLATION[event[:status]])
+        object = TRANSLATION[event[:object]]
+        text = "\"#{event[:text]}\""
+        say("  #{status} #{object} #{text}")
+      end
+      say('-' * 27)
+    end
   end
+
+  private
 
   def spaces(text, width)
     spaces = ' ' * (width - text.length)
     return "#{text}#{spaces}"
   end
 
-  def ts_to_date(timestamp)
-    Time.at(timestamp.to_i).strftime("%Y-%m-%d")
+  def ts_to_date(timestamp, template = "%Y-%m-%d")
+    Time.at(timestamp.to_i).strftime(template)
   end
 
 end

@@ -27,7 +27,7 @@ class Report
     return @report
   end
 
-  private
+  protected
 
   def to_event(object, status = :created)
     if object[:description]

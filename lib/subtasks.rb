@@ -1,7 +1,7 @@
 class Subtasks < DB
   
   def finish!(id)
-    @table.where("id = ?", id.to_i).update(status: 1, finished_at: time)
+    @table.where("id = ?", id.to_i).update(status: 1, finished_at: now)
   end
 
   def active(task_id)

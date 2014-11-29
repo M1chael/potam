@@ -21,7 +21,7 @@ class Report
 
   private
 
-  def to_event(object)
+  def to_event(object, status = :created)
     if object[:description]
       @report[:events] << 
         {object: :task, status: :created, task_id: object[:id], 
@@ -31,7 +31,9 @@ class Report
         {object: :note, status: :created, task_id: object[:task_id], 
           text: object[:text], timestamp: object[:created_at]}
     else
-
+      @report[:events] << 
+        {object: :subtask, status: status, task_id: object[:task_id], 
+          text: object[:title], timestamp: object[:"#{status}_at"]}
     end
   end
 

@@ -38,7 +38,7 @@ describe Report do
       {object: :subtask, status: :created, task_id: tasks[2][:id], text: subtasks[2][:title], timestamp: subtasks[2][:created_at]},
       {object: :note, status: :created, task_id: tasks[2][:id], text: notes[2][:text], timestamp: notes[2][:created_at]},
       {object: :note, status: :created, task_id: tasks[1][:id], text: notes[1][:text], timestamp: notes[1][:created_at]},
-      {object: :subtask, status: :finished, task_id: tasks[1][:id], text: subtasks[1][:text], timestamp: subtasks[1][:finished_at]}
+      {object: :subtask, status: :finished, task_id: tasks[1][:id], text: subtasks[1][:title], timestamp: subtasks[1][:finished_at]}
     ]
   } }
 
@@ -76,7 +76,14 @@ describe Report do
       @report.__send__(:to_event, notes[2])
       expect(@report.instance_variable_get(:@report)[:events][0]).to eq(report[:events][2])
     end
-
+    it 'should add subtask to events with started_at' do
+      @report.__send__(:to_event, subtasks[2])
+      expect(@report.instance_variable_get(:@report)[:events][0]).to eq(report[:events][1])
+    end
+    it 'should add subtask to events with finished_at' do
+      @report.__send__(:to_event, subtasks[1], :finished)
+      expect(@report.instance_variable_get(:@report)[:events][0]).to eq(report[:events][4])
+    end
     # it 'should not add task to events if its date not is in report range' do
     #   @report.__send__(:to_event, tasks[1])
     #   expect(@report.instance_variable_get(:@report)[:events][0]).to be_nil

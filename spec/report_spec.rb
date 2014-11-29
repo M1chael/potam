@@ -38,7 +38,7 @@ describe Report do
       {object: :subtask, status: :created, task_id: tasks[2][:id], text: subtasks[2][:title], timestamp: subtasks[2][:created_at]},
       {object: :note, status: :created, task_id: tasks[2][:id], text: notes[2][:text], timestamp: notes[2][:created_at]},
       {object: :note, status: :created, task_id: tasks[1][:id], text: notes[1][:text], timestamp: notes[1][:created_at]},
-      {object: :subtask, status: :created, task_id: tasks[1][:id], text: subtasks[1][:text], timestamp: subtasks[1][:finished_at]}
+      {object: :subtask, status: :finished, task_id: tasks[1][:id], text: subtasks[1][:text], timestamp: subtasks[1][:finished_at]}
     ]
   } }
 
@@ -57,13 +57,24 @@ describe Report do
   end
 
   after(:each) do
-    # FileUtils.cp(CLEANDB, TESTDB)
+    FileUtils.cp(CLEANDB, TESTDB)
     ENV['POTAM'] = 'production'
   end
 
   describe '#week' do
     it 'should return weekly report' do
       expect(@report.week).to eq(report)
+    end
+  end
+
+  describe '#to_event' do
+    it 'should add task to events if its date is in report range' do
+      @report.__send__(:to_event, tasks[2])
+      expect(@report.instance_variable_get(:@report)[:events][0]).to eq(report[:events][0])
+    end
+    it 'should not add task to events if its date not is in report range' do
+      @report.__send__(:to_event, tasks[1])
+      expect(@report.instance_variable_get(:@report)[:events][0]).to be_nil
     end
   end
 

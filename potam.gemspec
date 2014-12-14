@@ -3,11 +3,11 @@ require File.join([File.dirname(__FILE__),'lib','potam','version.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = 'potam'
   s.version = Potam::VERSION
-  s.author = 'Your Name Here'
-  s.email = 'your@email.address.com'
-  s.homepage = 'http://your.website.com'
+  s.author = 'Michael'
+  s.email = '0x22aa2@gmail.com'
+  # s.homepage = 'http://your.website.com'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'A description of your project'
+  s.summary = 'Personal Offline TAsk Manager - POTAM'
   s.files = `git ls-files`.split("
 ")
   s.require_paths << 'lib'

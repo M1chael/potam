@@ -1,27 +1,18 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
-require 'gli'
-require 'potam.rb'
-# begin # XXX: Remove this begin/rescue before distributing your app
-# require 'potam'
-# rescue LoadError
-#   STDERR.puts "In development, you need to use `bundle exec bin/potam` to run your app"
-#   STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
-#   STDERR.puts "Feel free to remove this message from bin/potam now"
-#   exit 64
-# end
+require 'potam'
 
 include GLI::App
 include Dialog
 
-program_desc 'Describe your application here'
+program_desc 'Менеджер задач'
 
 version Potam::VERSION
 
 subcommand_option_handling :normal
 arguments :strict
 
-ENV['GLI_DEBUG'] = 'true'
+# ENV['GLI_DEBUG'] = 'true'
 
 db = ENV['POTAM'] == 'test' ? 
   Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db") :
@@ -31,11 +22,7 @@ subtasks = Subtasks.new(db)
 notes = Notes.new(db)
 report = Report.new(db)
 
-desc 'Describe some switch here'
-switch [:s,:switch]
-
-desc 'Используется для указания номера задачи'
-# default_value 'the default'
+desc 'Указание номера задачи'
 arg_name 'Номер задачи'
 flag [:t,:task]
 
@@ -48,21 +35,12 @@ command :done do |c|
   end
 end
 
-desc 'Describe add here'
-arg_name 'Describe arguments to add here'
+desc 'Добавление задач, подзадач и заметок'
+arg_name 'Тип добавляемого объекта'
 command :add do |c|
-  c.desc 'Describe a switch to add'
-  c.switch :n, :note
-
-  c.desc 'Describe a flag to add'
-  c.default_value 'default'
-  c.flag :f
+  c.desc 'Добавить заметку'
+  c.switch :n, :note, :negatable => false
   c.action do |global_options,options,args|
-
-    # Your command logic here
-     
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
     if global_options[:task]
       if options[:note]
         Dialog.ask_new_note
@@ -81,10 +59,11 @@ command :add do |c|
   end
 end
 
-desc 'Describe list here'
-arg_name 'Describe arguments to list here'
+desc 'Просмотр перечня задач, подзадач и заметок'
+arg_name 'Режим вывода списка'
 command :list do |c|
-  c.switch :a, :all
+  c.desc 'Полный список'
+  c.switch :a, :all, :negatable => false
   c.action do |global_options,options,args|
     list_method = options[:all] ? :list : :last
     if global_options[:task]
@@ -100,32 +79,11 @@ end
 desc 'Вывести отчет'
 arg_name 'Период отчета'
 command :report do |c|
-  c.switch :w, :week
+  c.desc 'Недельный отчет'
+  c.switch :w, :week, :negatable => false
   c.action do |global_options,options,args|
     Dialog.say_report(report.week)
   end
-end
-
-pre do |global,command,options,args|
-  # Pre logic here
-  # Return true to proceed; false to abort and not call the
-  # chosen command
-  # Use skips_pre before a command to skip this block
-  # on that command only
-  # p args
-  true
-end
-
-post do |global,command,options,args|
-  # Post logic here
-  # Use skips_post before a command to skip this
-  # block on that command only
-end
-
-on_error do |exception|
-  # Error logic here
-  # return false to skip default error handling
-  true
 end
 
 exit run(ARGV)

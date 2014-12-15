@@ -5,7 +5,7 @@ spec = Gem::Specification.new do |s|
   s.version = Potam::VERSION
   s.author = 'Michael'
   s.email = '0x22aa2@gmail.com'
-  # s.homepage = 'http://your.website.com'
+  s.homepage = 'https://github.com/M1chael/potam'
   s.platform = Gem::Platform::RUBY
   s.summary = 'Personal Offline TAsk Manager - POTAM'
   s.files = `git ls-files`.split("
@@ -20,4 +20,6 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('rdoc')
   s.add_development_dependency('aruba')
   s.add_runtime_dependency('gli','2.12.2')
+  s.add_runtime_dependency('unicode')
+  s.add_runtime_dependency('sequel')
 end

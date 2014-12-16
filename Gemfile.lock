@@ -1,8 +1,10 @@
 PATH
   remote: .
   specs:
-    potam (0.0.1)
+    potam (0.0.2)
       gli (= 2.12.2)
+      sequel
+      unicode
 
 GEM
   remote: https://rubygems.org/

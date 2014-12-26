@@ -1,6 +1,5 @@
 require 'aruba/cucumber'
 require 'sequel'
-# require 'cucumber/timecop'
 
 ENV['PATH'] = "#{File.expand_path(File.dirname(__FILE__) + '/../../bin')}#{File::PATH_SEPARATOR}#{ENV['PATH']}"
 LIB_DIR = File.join(File.expand_path(File.dirname(__FILE__)),'..','..','lib')
@@ -13,12 +12,11 @@ Before do |scenario|
   @original_rubylib = ENV['RUBYLIB']
   ENV['RUBYLIB'] = LIB_DIR + File::PATH_SEPARATOR + ENV['RUBYLIB'].to_s
   ENV['POTAM'] = 'test'
-  FileUtils.cp(CLEANDB, TESTDB) #if !defined? scenario.scenario_outline
+  FileUtils.cp(CLEANDB, TESTDB)
 end
 
 After do
   ENV['RUBYLIB'] = @original_rubylib
-  # Timecop.return
 end
 
 at_exit do

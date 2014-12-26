@@ -14,9 +14,15 @@ arguments :strict
 
 # ENV['GLI_DEBUG'] = 'true'
 
-db = ENV['POTAM'] == 'test' ? 
-  Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../test/test.db") :
-  Sequel.sqlite("#{File.expand_path(File.dirname(__FILE__))}/../db/potam.db")
+test_db = "#{File.expand_path(File.dirname(__FILE__))}/../test/test.db"
+clean_db = "#{File.expand_path(File.dirname(__FILE__))}/../test/clean.db"
+prod_db = "#{Dir.home}/.potam/potam.db"
+if !File.file?(prod_db) 
+  FileUtils.mkdir_p(File.dirname(prod_db))
+  FileUtils.cp(clean_db, prod_db)
+end
+
+db = ENV['POTAM'] == 'test' ? Sequel.sqlite(test_db) : Sequel.sqlite(prod_db)
 tasks = Tasks.new(db)
 subtasks = Subtasks.new(db)
 notes = Notes.new(db)

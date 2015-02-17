@@ -16,7 +16,7 @@ module Dialog
   WEEK = [nil, 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
 
   def self.ask_new_task
-    @new_task_title = ask('Введите имя задачи: ')
+    @new_task_title = ask('Введите имяd задачи: ') { |q| q.readline }
     @new_task_description = ask('Введите описание задачи: ')
   end
 
@@ -31,7 +31,7 @@ module Dialog
   def self.say_tasks(tasks, indentation = '')
     tasks.each do |task|
       id = spaces("##{task[:id]}", 8)
-      title = spaces(task[:title], 41)
+      title = spaces(task[:title], 70)
       created_at = ts_to_date(task[:created_at])
       say("#{indentation}#{id}#{title}#{created_at}")
     end

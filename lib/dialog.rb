@@ -16,7 +16,7 @@ module Dialog
   WEEK = [nil, 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
 
   def self.ask_new_task
-    @new_task_title = ask('Введите имяd задачи: ') { |q| q.readline }
+    @new_task_title = ask('Введите имя задачи: ') { |q| q.readline }
     @new_task_description = ask('Введите описание задачи: ')
   end
 
